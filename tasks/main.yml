@@ -1,2 +1,22 @@
 ---
 # tasks file for nginx_ansible_role
+- name: Add nginx stable repository from PPA on Ubuntu
+  ansible.builtin.apt_repository:
+    repo: ppa:nginx/stable
+    state: present
+    update_cache: yes
+  become: true
+
+- name: Update repositories cache and install nginx on Ubuntu
+  ansible.builtin.apt:
+    name:
+      - nginx
+    update_cache: yes
+  become: true
+
+- name: Ensure nginx service is enabled and running
+  ansible.builtin.service:
+    state: started
+    name: nginx
+    enabled: true
+  become: true
